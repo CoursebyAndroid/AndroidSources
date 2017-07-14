@@ -1,0 +1,96 @@
+<android.support.design.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context="com.leshchenko.root.lindiaprojectx.fragments.LoginFragment">
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/Sulfur">
+
+    <Button
+        android:id="@+id/btn_view_facebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="btn_facebook"
+        android:layout_margin="20dp"
+        android:text="@string/action_login_facebok">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btn_view_google"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="btn_google"
+        android:layout_margin="20dp"
+        android:text="@string/action_login_google">
+
+    </Button>
+
+
+    <TextView
+        android:id="@+id/text_view_or"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/action_login_or"
+        android:layout_margin="20dp"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/email_view_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:layout_margin="20dp"
+            android:hint="@string/action_login_hint_email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/password_view_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="@string/action_login_hint_password"
+            android:layout_margin="20dp"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/landia_view_connect_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:onClick="landia_connect_login"
+            android:text="@string/action_login_string_btn_lindia_connect">
+
+        </Button>
+
+        <TextView
+            android:id="@+id/forgot_view_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:text="@string/action_login_forgot" />
+
+    </LinearLayout>
+
+</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

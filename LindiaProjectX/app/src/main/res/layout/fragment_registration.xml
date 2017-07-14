@@ -1,0 +1,58 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.leshchenko.root.lindiaprojectx.ui.LogInActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/email_view_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="@string/action_login_hint_email"
+            android:layout_margin="20dp"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/password_view_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:hint="@string/action_login_hint_password"
+            android:layout_margin="20dp"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/confirm_view_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/action_login_hint_confirm"
+            android:layout_margin="20dp"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/landia_view_connect_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="landia_connect_register"
+            android:layout_margin="20dp"
+            android:text="@string/action_login_string_btn_lindia_connect">
+
+        </Button>
+
+
+    </LinearLayout>
+
+
+    </android.support.design.widget.CoordinatorLayout>
