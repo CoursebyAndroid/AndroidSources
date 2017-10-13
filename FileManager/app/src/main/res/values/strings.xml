@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FileManager</string>
+    <string name="hint_text">Write text</string>
+    <string name="hint_read">Read text</string>
+    <string name="btn_string_write">Save file</string>
+    <string name="btn_string_reade">Load file</string>
+</resources>

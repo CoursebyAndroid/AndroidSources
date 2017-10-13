@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="visible"
+    tools:context="com.leshchenko.root.filemanager.MainActivity">
+
+    <EditText
+        android:id="@+id/text_view_write"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/btn_string_write"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <Button
+        android:id="@+id/btn_view_write"
+        android:layout_width="140dp"
+        android:layout_height="48dp"
+        android:text="@string/btn_string_write"
+        tools:layout_editor_absoluteX="122dp"
+        android:layout_marginTop="24dp"
+        android:onClick="onClick"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_write" />
+
+    <Button
+        android:id="@+id/btn_view_read"
+        android:layout_width="140dp"
+        android:layout_height="48dp"
+        android:text="@string/btn_string_reade"
+        tools:layout_editor_absoluteX="122dp"
+        android:layout_marginTop="24dp"
+        android:onClick="onClick"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_read" />
+
+    <TextView
+        android:id="@+id/text_view_read"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:text="@string/hint_read"
+        tools:layout_editor_absoluteX="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/btn_view_write" />
+
+</android.support.constraint.ConstraintLayout>
