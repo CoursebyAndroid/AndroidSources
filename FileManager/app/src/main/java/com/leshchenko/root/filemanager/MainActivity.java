@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textRead;
     private Button   btnSave;
     private Button   btnRead;
-    private File file = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +56,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG, "SD-карта не доступна: " + Environment.getExternalStorageState());
             return;
         }
-            file = Environment.getExternalStorageDirectory();
-            file = new File(file.getAbsolutePath() + "/" + "Airlogger");
-            if (!file.exists()) {
-                file.mkdirs();
+
+            String dirName = Environment.getExternalStorageDirectory() + "/Airlogger/";
+            File dirFile = new File(dirName);
+            if (!dirFile.exists()) {
+                dirFile.mkdir();
             }
-        File sdFile = new File(file,fileName());
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(sdFile));
+            File file = new File(dirName + fileName());
+         try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             bw.write(textWrite.getText().toString());
             bw.close();
             Toast.makeText(this,"Запись в файл",Toast.LENGTH_LONG);
-            Log.d(TAG, "Файл записан на SD: " + sdFile.getAbsolutePath());
+            Log.d(TAG, "Файл записан на SD: " + file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SimpleDateFormat dateFormatB = new SimpleDateFormat("HH:mm:ss");
         date = dateFormatA.format(utc);
         time = dateFormatB.format(utc);
-        return "Airlogger" + "_" + date + "_" + time;
+        return "Airlogger" + "_" + date + "_" + time+".txt";
     }
 
 
