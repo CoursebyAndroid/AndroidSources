@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AuthSosialProjectModule</string>
+    <string name="hello_blank_fragment">Login In</string>
+    <string name="login_in_text">LoginIn</string>
+</resources>
