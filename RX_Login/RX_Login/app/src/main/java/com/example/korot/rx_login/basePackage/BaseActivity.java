@@ -7,9 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-
 import com.example.korot.rx_login.app.daggerApp.AppComponent;
 import com.example.korot.rx_login.app.daggerApp.MyApp;
+import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import butterknife.Unbinder;
 
@@ -21,6 +24,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected FragmentManager fragmentManager;
     private Unbinder unbinder;
+    protected CallbackManager callbackManager;
+    protected LoginManager loginManager;
+    protected GoogleApiClient mGoogleApiClient;
+    protected TwitterAuthClient sosialClientTwitter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,4 +74,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         unbinder.unbind();
     }
+
+
 }

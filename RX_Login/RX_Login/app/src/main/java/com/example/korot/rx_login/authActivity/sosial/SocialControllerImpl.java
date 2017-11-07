@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 import com.example.korot.rx_login.R;
-import com.example.korot.rx_login.app.daggerApp.MyApp;
 import com.example.korot.rx_login.app.utils.INetworkCheck;
 import com.example.korot.rx_login.authActivity.ui.AuthActivity;
 import com.example.korot.rx_login.basePackage.BaseSosial;
@@ -17,9 +16,11 @@ import com.facebook.login.LoginResult;
 import com.google.android.gms.common.AccountPicker;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -37,7 +38,6 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
         this.networkCheck = networkCheck;
     }
 
-
     @Override
     public void onSelect(int select) {
         switch (select) {
@@ -51,7 +51,6 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
                 break;
             case R.integer.twitter:
                 Log.e(TAG ,"Twitter");
-                loginButton = activity.getmBtnTwitter();
                 loginInTwitter();
                 break;
             case R.integer.instagram:
@@ -61,24 +60,21 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
             default:
                 throw new NullPointerException("Null onSelect()");
         }
-
     }
-
 
     public void logiInFacebook() {
         if (!networkCheck.isOnline()) {
             Toast.makeText(activity, activity.getString(R.string.error_text_no_internet), Toast.LENGTH_LONG).show();
             return;
         }
-        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("public_profile"));
+        LoginManager.getInstance().logInWithReadPermissions(activity, Collections.singletonList("public_profile"));
         activity.getLoginManager().registerCallback(activity.getCallbackManager(), new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 final String token = AccessToken.getCurrentAccessToken().getToken();
                 Toast.makeText(activity,"Enter Facebook",Toast.LENGTH_LONG).show();
-                Log.e(TAG + " Facebook",token.toString());
+                Log.e(TAG + " Facebook",token);
             }
-
             @Override
             public void onCancel() {}
 
@@ -99,24 +95,37 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
         activity.startActivityForResult(intent,9001);
     }
 
-
     public void loginInTwitter() {
-        activity.getmBtnTwitter().setCallback(new Callback<TwitterSession>() {
+        if (!networkCheck.isOnline()) {
+            Toast.makeText(activity, activity.getString(R.string.error_text_no_internet), Toast.LENGTH_LONG).show();
+            return;
+        }
+        activity.getSosialClientTwitter().authorize(activity, new Callback<TwitterSession>() {
             @Override
-            public void success(Result<TwitterSession> result) {
-                final String token = AccessToken.getCurrentAccessToken().getToken();
-                Toast.makeText(activity,"Enter Twiter",Toast.LENGTH_LONG).show();
-                Log.e(TAG + " Twiter",token.toString());
+            public void success(final Result<TwitterSession> result) {
+                final TwitterSession sessionData = result.data;
+                Log.e("log","twitter");
+                TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+                TwitterAuthToken authToken = session.getAuthToken();
+                String twitter_id = result.data.getUserId() + "";
+                String accessToken = result.data.getAuthToken().token;
+                String secretToken = result.data.getAuthToken().secret;
+                Toast.makeText(activity,"Enter Twitter",Toast.LENGTH_LONG).show();
+                Log.i(TAG, "Access Token:- " + accessToken);
+                Log.i(TAG, "Secreat Token:- " + secretToken);
             }
             @Override
-            public void failure(TwitterException exception) {
-                Toast.makeText(activity, "Authentication failed!", Toast.LENGTH_LONG).show();
+            public void failure(final TwitterException e) {
+                // Do something on fail
             }
         });
     }
 
-
     public void loginInInstagram() {
+        if (!networkCheck.isOnline()) {
+            Toast.makeText(activity, activity.getString(R.string.error_text_no_internet), Toast.LENGTH_LONG).show();
+            return;
+        }
         checkForInstagramData();
         final Uri.Builder uriBuilder = new Uri.Builder();
         uriBuilder.scheme("https")
@@ -127,6 +136,7 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
                 .appendQueryParameter("redirect_uri", "http://www.w3.org/Addressing/URL/url-spec.txt")
                 .appendQueryParameter("response_type", "token");
         final Intent browser = new Intent(Intent.ACTION_VIEW, uriBuilder.build());
+        Toast.makeText(activity,"Enter Instagram",Toast.LENGTH_LONG).show();
         activity.startActivity(browser);
     }
 
@@ -139,7 +149,6 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
                     @Override
                     public Void call() throws Exception {
                         // Do nothing, just throw the access token away.
-
                         return null;
                     }
                 });
@@ -155,6 +164,4 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
             Toast.makeText(getApplicationContext(), R.string.login_error, Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }

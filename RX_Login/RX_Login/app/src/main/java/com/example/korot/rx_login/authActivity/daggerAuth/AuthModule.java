@@ -7,6 +7,8 @@ import com.example.korot.rx_login.authActivity.sosial.SocialControllerImpl;
 import com.example.korot.rx_login.authActivity.utils.AuthInteractorImpl;
 import com.example.korot.rx_login.authActivity.ui.AuthActivity;
 import com.example.korot.rx_login.basePackage.IInteractorContract;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import dagger.Module;
 import dagger.Provides;
@@ -41,6 +43,8 @@ public class AuthModule {
     ISocialController provideSocialController(AuthActivity activity, INetworkCheck networkCheck) {
         return new SocialControllerImpl(activity, networkCheck);
     }
+
+
 
 
 

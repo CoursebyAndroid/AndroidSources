@@ -11,9 +11,7 @@ import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-/**
- * Created by korot on 24.09.2017.
- */
+
 
 public class MyApp extends Application {
 
@@ -26,15 +24,14 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+       //
         TwitterAuthConfig authConfig =
                 new TwitterAuthConfig(getString(R.string.com_twitter_sdk_android_CONSUMER_KEY),
                         getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET));
-        Fabric.with(this, new Twitter(authConfig));
+        Fabric.with(new Fabric.Builder(this).kits(new Crashlytics(), new Twitter(authConfig)).build());
         FacebookSdk.sdkInitialize(getApplicationContext());
         initRealmConfiguration();
         initAppComponent();
-
     }
 
     private void initRealmConfiguration() {

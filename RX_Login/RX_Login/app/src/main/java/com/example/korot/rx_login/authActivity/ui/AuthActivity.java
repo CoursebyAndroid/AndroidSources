@@ -6,12 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.crashlytics.android.Crashlytics;
 import com.example.korot.rx_login.R;
 import com.example.korot.rx_login.app.daggerApp.AppComponent;
 import com.example.korot.rx_login.app.model.User;
-import com.example.korot.rx_login.authActivity.sosial.SocialControllerImpl;
 import com.example.korot.rx_login.basePackage.BaseActivity;
 import com.example.korot.rx_login.authActivity.daggerAuth.AuthModule;
 import com.example.korot.rx_login.authActivity.utils.AuthPresenterImpl;
@@ -21,39 +18,27 @@ import com.example.korot.rx_login.authActivity.fogotPassFragment.ui.ForgotPassDi
 import com.example.korot.rx_login.authActivity.loginFragment.ui.LoginFragment;
 import com.example.korot.rx_login.authActivity.registFragment.ui.RegistrationFragment;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import javax.inject.Inject;
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import io.fabric.sdk.android.Fabric;
+
 
 
 public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,ForgotPassDialog.IFogot,RegistrationFragment.IRegist
 ,IBaseView.IAuthView {
 
     private static final String TAG = AuthActivity.class.getSimpleName();
-    private CallbackManager callbackManager;
-    private LoginManager loginManager;
-    private GoogleApiClient mGoogleApiClient;
 
     @Inject
     AuthPresenterImpl presenter;
-    @Inject
-    SocialControllerImpl socialController;
-
-    @BindView(R.id.login_button)
-    TwitterLoginButton mBtnTwitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        sosialClientTwitter = new TwitterAuthClient();
         callbackManager = CallbackManager.Factory.create();
         loginManager = LoginManager.getInstance();
         this.addFragment(R.id.activity_main, LoginFragment.newInstance(), "Auth");
@@ -68,8 +53,8 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
         return loginManager;
     }
 
-    public TwitterLoginButton getmBtnTwitter() {
-        return mBtnTwitter;
+    public TwitterAuthClient getSosialClientTwitter() {
+        return sosialClientTwitter;
     }
 
     @Override
@@ -77,18 +62,17 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
         appComponent.plus(new AuthModule(this)).inject(this);
     }
 
-
-
     @Override
     protected void initView() {
 
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, " onActivityResult " + requestCode + " " + resultCode);
+
+        sosialClientTwitter.onActivityResult(requestCode, resultCode, data);
         if (requestCode == R.integer.facebook) {
             Log.e(TAG , " onActivityResult  Facebook " + requestCode + " " + resultCode );
             callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -97,10 +81,7 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
             Log.e(TAG, " onActivityResult  Google " + requestCode + " " + resultCode);
               mGoogleApiClient.connect();
         }
-            if(requestCode == R.integer.twitter) {
-                Log.e(TAG, " onActivityResult  Twitter " + requestCode + " " + resultCode);
-                mBtnTwitter.onActivityResult(requestCode, resultCode, data);
-            }
+
     }
 
     @Override
