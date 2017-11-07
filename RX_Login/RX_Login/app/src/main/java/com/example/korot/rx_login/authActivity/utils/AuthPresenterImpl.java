@@ -8,8 +8,10 @@ import com.example.korot.rx_login.R;
 import com.example.korot.rx_login.app.utils.IApiServise;
 import com.example.korot.rx_login.app.utils.IRealmService;
 import com.example.korot.rx_login.app.utils.RealmService;
+import com.example.korot.rx_login.authActivity.sosial.ISocialController;
 import com.example.korot.rx_login.authActivity.sosial.SocialControllerImpl;
 import com.example.korot.rx_login.authActivity.ui.AuthActivity;
+import com.example.korot.rx_login.basePackage.BaseFragment;
 import com.example.korot.rx_login.basePackage.BasePresenter;
 import com.example.korot.rx_login.basePackage.IBaseView;
 import com.example.korot.rx_login.basePackage.IInteractorContract;
@@ -34,17 +36,15 @@ public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInter
         implements IPresenterContract.IAuthPresenter {
 
     private static final String TAG = AuthPresenterImpl.class.getSimpleName();
-    AuthActivity activity;
-    IInteractorContract.IAuthInteractor mAuthInteractor;
-    IRealmService realmService;
+
 
     @Inject
-    public AuthPresenterImpl(IInteractorContract.IAuthInteractor authInteractor, IRealmService realmService) {
+    public AuthPresenterImpl(IInteractorContract.IAuthInteractor authInteractor, IRealmService realmService, ISocialController iSocialController ) {
         this.mAuthInteractor = authInteractor;
         this.realmService = realmService;
+        this.socialController = iSocialController;
     }
-    @Inject
-    SocialControllerImpl socialController;
+
 
     @Override
     public void singUp(String phone, String email, String password) {

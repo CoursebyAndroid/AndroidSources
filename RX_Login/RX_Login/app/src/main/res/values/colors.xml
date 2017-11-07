@@ -7,4 +7,6 @@
     <color name="colorWithe">#f7468d</color>
     <color name="background_white">#ffffff</color>
     <color name="divider_gray">#beb4b4</color>
+
+    <color name="color_common_background">#646464</color>
 </resources>

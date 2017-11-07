@@ -16,4 +16,11 @@
 
     <string name="com.twitter.sdk.android.CONSUMER_KEY">Lj1YKa2o5V95ZadcI520IgKU9</string>
     <string name="com.twitter.sdk.android.CONSUMER_SECRET">KKmVq9fiVJp0B5qLs4CER6pUjYWLJ5GhB6Yrb0hcHk59GNphqY</string>
+
+    //static id sosial select
+    <integer name="facebook">1</integer>
+    <integer name="google">9001</integer>
+    <integer name="twitter">2</integer>
+    <integer name="instagram">3</integer>
+
 </resources>

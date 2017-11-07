@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.24.4'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 apply plugin: 'com.android.application'
@@ -26,6 +26,7 @@ android {
         applicationId "com.example.korot.rx_login"
         minSdkVersion 15
         targetSdkVersion 25
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -43,14 +44,23 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //UI
+
     //Retrofit
+
     //Rx
+
     //ATP
+    //sosial
+    //google
+    //twiter
+//    compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
+//        transitive = true;
+//    }
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
@@ -65,36 +75,27 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
     compile 'com.jakewharton:butterknife:8.1.0'
-
-    testCompile 'junit:junit:4.12'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
     compile 'com.google.dagger:dagger:2.7'
-    apt 'com.google.dagger:dagger-compiler:2.7'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
-    provided 'com.ryanharter.auto.value:auto-value-gson:0.4.5'
-    //sosial
     compile 'com.facebook.android:facebook-core:[4,5)'
     compile 'com.facebook.android:facebook-login:[4,5)'
     compile 'com.facebook.android:facebook-share:[4,5)'
     compile 'com.facebook.android:facebook-places:[4,5)'
     compile 'com.facebook.android:facebook-messenger:[4,5)'
     compile 'com.facebook.android:facebook-applinks:[4,5)'
-    //google
     compile 'com.google.android.gms:play-services-auth:11.0.4'
     compile 'com.google.android.gms:play-services-plus:11.0.4'
-    //twiter
 
-  //  compile 'com.twitter.sdk.android:twitter:3.1.1'
-//    compile('com.twitter.sdk.android:twitter-core:1.6.3@aar') {
-//        transitive = true;
-//    }
-//    compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
-//        transitive = true;
-//    }
-    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+    compile('com.twitter.sdk.android:twitter:2.3.2@aar') {
         transitive = true;
     }
 
-
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true;
+    }
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+    apt 'com.google.dagger:dagger-compiler:2.7'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    provided 'com.ryanharter.auto.value:auto-value-gson:0.4.5'
 }
 apply plugin: 'com.google.gms.google-services'

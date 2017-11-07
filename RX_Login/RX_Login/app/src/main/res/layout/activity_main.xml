@@ -7,5 +7,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.korot.rx_login.authActivity.ui.AuthActivity">
 
-
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_btn_twitter"
+        android:visibility="gone" />
 </RelativeLayout>

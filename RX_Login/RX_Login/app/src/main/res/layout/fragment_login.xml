@@ -146,7 +146,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_btn_twitter"
-            android:visibility="gone"
             android:layout_alignBaseline="@+id/btn_facebook"
             android:layout_alignBottom="@+id/btn_facebook"
             android:layout_alignRight="@+id/btn_login"
@@ -164,5 +163,6 @@
             android:layout_alignRight="@+id/btn_twitter"
             android:layout_alignEnd="@+id/btn_twitter" />
     </RelativeLayout>
+
 </FrameLayout>
 

@@ -1,14 +1,12 @@
 package com.example.korot.rx_login.authActivity.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
+
 import com.crashlytics.android.Crashlytics;
 import com.example.korot.rx_login.R;
 import com.example.korot.rx_login.app.daggerApp.AppComponent;
@@ -26,8 +24,11 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import javax.inject.Inject;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
 
@@ -41,17 +42,18 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
 
     @Inject
     AuthPresenterImpl presenter;
+    @Inject
+    SocialControllerImpl socialController;
 
-
-
+    @BindView(R.id.login_button)
+    TwitterLoginButton mBtnTwitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         Fabric.with(this, new Crashlytics());
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         loginManager = LoginManager.getInstance();
         this.addFragment(R.id.activity_main, LoginFragment.newInstance(), "Auth");
@@ -66,14 +68,16 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
         return loginManager;
     }
 
-//    public AppCompatButton getmBtnTwitter() {
-//        return mBtnTwitter;
-//    }
+    public TwitterLoginButton getmBtnTwitter() {
+        return mBtnTwitter;
+    }
 
     @Override
     protected void setupComponent(AppComponent appComponent) {
         appComponent.plus(new AuthModule(this)).inject(this);
     }
+
+
 
     @Override
     protected void initView() {
@@ -84,15 +88,19 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SocialControllerImpl.FACEBOOK_SELECT) {
+        Log.e(TAG, " onActivityResult " + requestCode + " " + resultCode);
+        if (requestCode == R.integer.facebook) {
+            Log.e(TAG , " onActivityResult  Facebook " + requestCode + " " + resultCode );
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
-        if (requestCode == SocialControllerImpl.GOOGLE_SELECT && resultCode == RESULT_OK) {
+        if (requestCode == R.integer.google && resultCode == RESULT_OK) {
+            Log.e(TAG, " onActivityResult  Google " + requestCode + " " + resultCode);
               mGoogleApiClient.connect();
         }
-//        if(requestCode == SocialControllerImpl.TWITTER_SELECT) {
-//            mBtnTwitter.onActivityResult(requestCode, resultCode, data);
-//        }
+            if(requestCode == R.integer.twitter) {
+                Log.e(TAG, " onActivityResult  Twitter " + requestCode + " " + resultCode);
+                mBtnTwitter.onActivityResult(requestCode, resultCode, data);
+            }
     }
 
     @Override
@@ -124,28 +132,11 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
     }
 
     @Override
-    public void onFacebookClickListener() {
-        Log.e(TAG, " onFacebookClickListener()");
-        presenter.inSelect(1);
+    public void onSosialClickListener(Integer select) {
+        Log.e(TAG, " onSosialClickListener() ");
+            presenter.inSelect(select);
     }
 
-    @Override
-    public void onGoogleClickListener() {
-        Log.e(TAG, " onGoogleClickListener()");
-      presenter.inSelect(9001);
-    }
-
-    @Override
-    public void onTwitterClickListener() {
-        Log.e(TAG, " onTwitterClickListener()");
-        presenter.inSelect(2);
-    }
-
-    @Override
-    public void onInstagramClickListener() {
-        Log.e(TAG, " onInstagramClickListener()");
-        presenter.inSelect(3);
-    }
 
     @Override
     public void onFogotClickListener(String email) {

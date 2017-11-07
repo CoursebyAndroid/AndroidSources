@@ -2,16 +2,11 @@ package com.example.korot.rx_login.authActivity.daggerAuth;
 
 import com.example.korot.rx_login.app.utils.IApiServise;
 import com.example.korot.rx_login.app.utils.INetworkCheck;
-import com.example.korot.rx_login.authActivity.loginFragment.ui.LoginFragment;
-import com.example.korot.rx_login.authActivity.sosial.GoogleAuthHelper;
-import com.example.korot.rx_login.authActivity.sosial.IGoogleAuthHelper;
 import com.example.korot.rx_login.authActivity.sosial.ISocialController;
 import com.example.korot.rx_login.authActivity.sosial.SocialControllerImpl;
 import com.example.korot.rx_login.authActivity.utils.AuthInteractorImpl;
 import com.example.korot.rx_login.authActivity.ui.AuthActivity;
 import com.example.korot.rx_login.basePackage.IInteractorContract;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import dagger.Module;
 import dagger.Provides;

@@ -47,14 +47,14 @@ public class LoginFragment extends BaseFragment implements IOnBackPressed {
     @BindView(R.id.btn_facebook)
     AppCompatButton mBtnFacebook;
 
+    @BindView(R.id.btn_twitter)
+    AppCompatButton mBtnTwitter;
+
     @BindView(R.id.btn_google)
     AppCompatButton mBtnGoogle;
 
     @BindView(R.id.btn_instagram)
     AppCompatButton mBtnInstagram;
-
-    @BindView(R.id.btn_twitter)
-    AppCompatButton mBtnTwitter;
 
     public ILogin mILogin;
 
@@ -73,10 +73,7 @@ public class LoginFragment extends BaseFragment implements IOnBackPressed {
         void onLoginClickListener(String email, String pass);
         void onRegisterClickListener();
         void onForgotPassClickListener();
-        void onFacebookClickListener();
-        void onTwitterClickListener();
-        void onGoogleClickListener();
-        void onInstagramClickListener();
+        void onSosialClickListener(Integer select);
     }
 
     public static LoginFragment newInstance() {
@@ -122,25 +119,27 @@ public class LoginFragment extends BaseFragment implements IOnBackPressed {
     @OnClick(R.id.btn_facebook)
     public void onFacebookClick(){
         Log.e(TAG, "onFacebookClick Pressed()");
-        LoginFragment.this.mILogin.onFacebookClickListener();
+        LoginFragment.this.mILogin.onSosialClickListener(R.integer.facebook);
+    }
+
+    @OnClick(R.id.btn_twitter)
+    public void onTwitterClick(){
+        Log.e(TAG, "onTwitterClick Pressed()");
+        LoginFragment.this.mILogin.onSosialClickListener(R.integer.twitter);
     }
 
     @OnClick(R.id.btn_google)
     public void onGoogleClick(){
         Log.e(TAG, "onGoogleClick Pressed()");
-        LoginFragment.this.mILogin.onGoogleClickListener();
-    }
-    @OnClick(R.id.btn_twitter)
-    public void onTwitterClick(){
-        Log.e(TAG, "onTwitterClick Pressed()");
-        LoginFragment.this.mILogin.onTwitterClickListener();
+        LoginFragment.this.mILogin.onSosialClickListener(R.integer.google);
     }
 
     @OnClick(R.id.btn_instagram)
     public void onInstagramClick(){
         Log.e(TAG, "onInstagramClick Pressed()");
-        LoginFragment.this.mILogin.onInstagramClickListener();
+        LoginFragment.this.mILogin.onSosialClickListener(R.integer.instagram);
     }
+
 
     @Override
     public void onAttach(Context context) {
