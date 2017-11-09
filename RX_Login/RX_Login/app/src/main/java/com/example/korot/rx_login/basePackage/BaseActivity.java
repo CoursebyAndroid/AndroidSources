@@ -37,6 +37,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sosialClientTwitter = new TwitterAuthClient();
+        callbackManager = CallbackManager.Factory.create();
+        loginManager = LoginManager.getInstance();
         googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
                 .requestServerAuthCode(getString(R.string.server_client_id), false)

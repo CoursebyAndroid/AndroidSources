@@ -18,35 +18,23 @@ public abstract class BaseSosial {
     protected INetworkCheck networkCheck;
     protected IRealmService mRealm;
 
-    public void facebookToketRealm(String token){
+
+    public void addTokenRealmDao(String token,String selectTag){
+        String tag = null;
+        switch (selectTag){
+            case "Google"  : tag = "Google ";   break;
+            case "Facebook": tag = "Facebook "; break;
+            case "Twitter" : tag = "Twitter ";  break;
+        }
+        addRealm(token,tag);
+    }
+
+    private void addRealm(String token,String tag){
         mRealm.addUser(new UserRealm(token), UserRealm.class)
                 .doOnError(Throwable::getStackTrace)
                 .subscribe(
                         next -> {
-                            Log.d("UserRealm ", " Facebook " + next);
-                        },
-                        Throwable::getStackTrace
-                );
-    }
-
-  public void googleTokenRealm(String token){
-      mRealm.addUser(new UserRealm(token), UserRealm.class)
-              .doOnError(Throwable::getStackTrace)
-              .subscribe(
-                      next -> {
-                          Log.d("UserRealm ", " Google " + next);
-                      },
-                      Throwable::getStackTrace
-              );
-    }
-
-  public void twitterTokenRealm(String token){
-        mRealm.addUser(new UserRealm(token), UserRealm.class)
-                .doOnError(Throwable::getStackTrace)
-                .subscribe(
-                        next -> {
-
-                            Log.d("UserRealm ", " Twiter " + next);
+                            Log.d("UserRealm ", tag + next);
                         },
                         Throwable::getStackTrace
                 );

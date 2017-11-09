@@ -1,5 +1,7 @@
 package com.example.korot.rx_login.basePackage;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+
 /**
  * Created by korot on 01.10.2017.
  */
@@ -15,6 +17,10 @@ public interface IPresenterContract{
         void inSelect(int select);
         void getData();
         void init(V view);
+    }
+
+    interface IAuthPresenterSosial extends IPresenterContract {
+        void resultGoogle(GoogleSignInResult res);
     }
 }
 

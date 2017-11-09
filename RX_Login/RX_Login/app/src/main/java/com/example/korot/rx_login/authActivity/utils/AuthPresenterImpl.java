@@ -16,6 +16,7 @@ import com.example.korot.rx_login.basePackage.BasePresenter;
 import com.example.korot.rx_login.basePackage.IBaseView;
 import com.example.korot.rx_login.basePackage.IInteractorContract;
 import com.example.korot.rx_login.basePackage.IPresenterContract;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -30,7 +31,7 @@ import rx.Observable;
 
 
 public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInteractorContract.IAuthInteractor>
-        implements IPresenterContract.IAuthPresenter {
+        implements IPresenterContract.IAuthPresenter, IPresenterContract.IAuthPresenterSosial {
 
     private static final String TAG = AuthPresenterImpl.class.getSimpleName();
 
@@ -99,5 +100,8 @@ public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInter
 
     }
 
-
+    @Override
+    public void resultGoogle(GoogleSignInResult res) {
+       socialController.onResultGoogle(res);
+    }
 }

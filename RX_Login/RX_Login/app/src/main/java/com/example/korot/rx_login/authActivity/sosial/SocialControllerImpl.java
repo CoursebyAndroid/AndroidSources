@@ -15,6 +15,8 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthToken;
@@ -23,7 +25,6 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import java.util.Collections;
 import java.util.concurrent.Callable;
-
 import javax.inject.Inject;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -76,7 +77,7 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
                 Toast.makeText(activity,"Enter Facebook",Toast.LENGTH_LONG).show();
                 AccessToken accessToken = loginResult.getAccessToken();
                 final String token = accessToken.getToken();
-                facebookToketRealm(token);
+                addTokenRealmDao(token,"Facebook");
             }
             @Override
             public void onCancel() {}
@@ -96,10 +97,21 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
     }
 
     @Override
-    public void googleTokenRealm(String token){
-        Toast.makeText(activity,"Enter Google",Toast.LENGTH_LONG).show();
-        Log.e(TAG,"googleTokenRealm " + token);
-        super.googleTokenRealm(token);
+    public void onResultGoogle(GoogleSignInResult res) {
+        if (res.isSuccess()) {
+            Log.d(TAG, "Result:" + res.isSuccess());
+            GoogleSignInAccount acct = res.getSignInAccount();
+            String authCode = null;
+            if (acct != null) {
+                authCode = acct.getServerAuthCode();
+            }
+            Log.e(TAG, "googleToken " + authCode);
+            if(authCode != null) {
+                Toast.makeText(activity,"Enter Google",Toast.LENGTH_LONG).show();
+                Log.e(TAG,"googleTokenRealm " + authCode);
+                addTokenRealmDao(authCode,"Google");
+            }
+        }
     }
 
     public void loginInTwitter() {
@@ -121,7 +133,7 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
                 Log.i(TAG, "Access Token:- " + accessToken);
                 Log.i(TAG, "Secreat Token:- " + secretToken);
 
-               twitterTokenRealm(authToken.toString());
+                addTokenRealmDao(authToken.toString(),"Twitter");
             }
             @Override
             public void failure(final TwitterException e) {}

@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.example.korot.rx_login.R;
 import com.example.korot.rx_login.app.daggerApp.AppComponent;
 import com.example.korot.rx_login.app.model.User;
-import com.example.korot.rx_login.authActivity.sosial.SocialControllerImpl;
 import com.example.korot.rx_login.basePackage.BaseActivity;
 import com.example.korot.rx_login.authActivity.daggerAuth.AuthModule;
 import com.example.korot.rx_login.authActivity.utils.AuthPresenterImpl;
@@ -22,7 +21,6 @@ import com.example.korot.rx_login.authActivity.registFragment.ui.RegistrationFra
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
@@ -41,19 +39,12 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
 
     @Inject
     AuthPresenterImpl presenter;
-    @Inject
-    SocialControllerImpl sosial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        sosialClientTwitter = new TwitterAuthClient();
-        callbackManager = CallbackManager.Factory.create();
-        loginManager = LoginManager.getInstance();
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
@@ -63,22 +54,6 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
 
         this.addFragment(R.id.activity_main, LoginFragment.newInstance(), "Auth");
         presenter.init(this);
-    }
-
-    public CallbackManager getCallbackManager() {
-        return callbackManager;
-    }
-
-    public LoginManager getLoginManager() {
-        return loginManager;
-    }
-
-    public TwitterAuthClient getSosialClientTwitter() {
-        return sosialClientTwitter;
-    }
-
-    public GoogleApiClient getGoogleApiClient(){
-        return mGoogleApiClient;
     }
 
     @Override
@@ -98,11 +73,10 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
             sosialClientTwitter.onActivityResult(requestCode, resultCode, data);
             callbackManager.onActivityResult(requestCode, resultCode, data);
             if(requestCode == 9001) {
-                mGoogleApiClient.connect();
                 GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
                 Log.e(TAG,"GoogleSignInResult result " + String.valueOf((result.getStatus())));
                 Log.e(TAG,"GoogleSignInResult result " + String.valueOf((result.isSuccess())));
-                googleToken(result);
+               presenter.resultGoogle(result);
             }
     }
 
@@ -195,28 +169,24 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    private void googleToken(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-            Log.d(TAG, "Result:" + result.isSuccess());
-            GoogleSignInAccount acct = result.getSignInAccount();
-            String authCode = null;
-            if (acct != null) {
-                authCode = acct.getServerAuthCode();
-            }
-            Log.e(TAG, "googleToken " + authCode);
-            if(authCode != null) {
-                sosial.googleTokenRealm(authCode);
-            }
-        }
-    }
-
-    @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
+    public CallbackManager getCallbackManager() {
+        return callbackManager;
+    }
+
+    public LoginManager getLoginManager() {
+        return loginManager;
+    }
+
+    public TwitterAuthClient getSosialClientTwitter() {
+        return sosialClientTwitter;
+    }
+
+    public GoogleApiClient getGoogleApiClient(){
+        return mGoogleApiClient;
     }
 }
 
