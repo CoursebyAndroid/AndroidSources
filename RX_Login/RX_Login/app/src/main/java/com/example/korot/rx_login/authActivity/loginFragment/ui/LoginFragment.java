@@ -73,7 +73,7 @@ public class LoginFragment extends BaseFragment implements IOnBackPressed {
         void onLoginClickListener(String email, String pass);
         void onRegisterClickListener();
         void onForgotPassClickListener();
-        void onSosialClickListener(Integer select);
+        void onSosialClickListener(int select);
     }
 
     public static LoginFragment newInstance() {

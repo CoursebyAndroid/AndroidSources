@@ -34,8 +34,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected TwitterAuthClient sosialClientTwitter;
     protected  GoogleSignInOptions googleSignInOptions;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

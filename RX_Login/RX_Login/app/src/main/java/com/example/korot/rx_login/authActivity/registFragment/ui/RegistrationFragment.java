@@ -87,7 +87,7 @@ public class RegistrationFragment extends Fragment implements IOnBackPressed {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.e(TAG, " onAttach()");
-        if(context instanceof IRegist){
+        if (context instanceof IRegist) {
             mIRegist = (IRegist) context;
         } else {
             throw new RuntimeException(context.toString()

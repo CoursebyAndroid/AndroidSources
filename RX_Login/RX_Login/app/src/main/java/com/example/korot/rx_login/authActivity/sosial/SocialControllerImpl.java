@@ -32,7 +32,6 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class SocialControllerImpl extends BaseSosial implements ISocialController {
 
     private static final String TAG = SocialControllerImpl.class.getSimpleName();
-    private String googleToken;
 
     @Inject
     public SocialControllerImpl(AuthActivity activity, INetworkCheck networkCheck, IRealmService realmService) {
@@ -85,7 +84,6 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
             @Override
             public void onError(FacebookException exception) {}
         });
-
     }
 
     public void loginInGoogle(){

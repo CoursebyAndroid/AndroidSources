@@ -27,8 +27,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
@@ -106,25 +104,6 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
                 Log.e(TAG,"GoogleSignInResult result " + String.valueOf((result.isSuccess())));
                 googleToken(result);
             }
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            googleToken(result);
-        } else {
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                    googleToken(googleSignInResult);
-                }
-            });
-        }
     }
 
     @Override
@@ -156,13 +135,6 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
     }
 
     @Override
-    public void onSosialClickListener(Integer select) {
-        Log.e(TAG, " onSosialClickListener() ");
-            presenter.inSelect(select);
-    }
-
-
-    @Override
     public void onFogotClickListener(String email) {
         if(email != null){
             Log.e(TAG, " onForgotPassClickListener() email - " + email);
@@ -170,6 +142,11 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
         }
     }
 
+    @Override
+    public void onSosialClickListener(int select) {
+        Log.e(TAG, " onSosialClickListener() ");
+        presenter.inSelect(select);
+    }
 
     @Override
     public void onBackPressed() {
@@ -205,7 +182,6 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
         }else {
             Toast.makeText(AuthActivity.this, "HUJ", Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override
@@ -229,7 +205,7 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
             GoogleSignInAccount acct = result.getSignInAccount();
             String authCode = null;
             if (acct != null) {
-                authCode = acct.getServerAuthCode().toString();
+                authCode = acct.getServerAuthCode();
             }
             Log.e(TAG, "googleToken " + authCode);
             if(authCode != null) {

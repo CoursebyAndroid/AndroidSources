@@ -20,7 +20,7 @@
     <string name="server_client_id">660113684901-e8eqsbf0st6ln2pm0fpfq61j62o3u68b.apps.googleusercontent.com</string>
     //static id sosial select
     <integer name="facebook">1</integer>
-    <integer name="google">49404</integer>
+    <integer name="google">9001</integer>
     <integer name="twitter">2</integer>
     <integer name="instagram">3</integer>
 
