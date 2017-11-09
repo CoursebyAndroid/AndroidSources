@@ -31,7 +31,6 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import javax.inject.Inject;
 import butterknife.ButterKnife;
 
-
 public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,ForgotPassDialog.IFogot,RegistrationFragment.IRegist
 ,IBaseView.IAuthView, GoogleApiClient.OnConnectionFailedListener{
 

@@ -101,15 +101,15 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
         if (res.isSuccess()) {
             Log.d(TAG, "Result:" + res.isSuccess());
             GoogleSignInAccount acct = res.getSignInAccount();
-            String authCode = null;
+            String token = null;
             if (acct != null) {
-                authCode = acct.getServerAuthCode();
+                token = acct.getServerAuthCode();
             }
-            Log.e(TAG, "googleToken " + authCode);
-            if(authCode != null) {
+            Log.e(TAG, "googleToken " + token);
+            if(token != null) {
                 Toast.makeText(activity,"Enter Google",Toast.LENGTH_LONG).show();
-                Log.e(TAG,"googleTokenRealm " + authCode);
-                addTokenRealmDao(authCode,"Google");
+                Log.e(TAG,"googleTokenRealm " + token);
+                addTokenRealmDao(token,"Google");
             }
         }
     }
