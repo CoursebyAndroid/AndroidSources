@@ -26,6 +26,7 @@ public interface IInteractorContract {
         Observable<User> signUp(String phone, String email, String password);
 //        Observable<User> forgotPassword(String email);
         Observable<JsonPrimitive> forgotPassword(String email);
+
     }
 }
 

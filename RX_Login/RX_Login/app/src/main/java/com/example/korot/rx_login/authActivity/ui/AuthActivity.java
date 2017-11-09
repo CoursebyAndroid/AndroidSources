@@ -2,6 +2,7 @@ package com.example.korot.rx_login.authActivity.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import com.example.korot.rx_login.R;
 import com.example.korot.rx_login.app.daggerApp.AppComponent;
 import com.example.korot.rx_login.app.model.User;
+import com.example.korot.rx_login.authActivity.sosial.SocialControllerImpl;
 import com.example.korot.rx_login.basePackage.BaseActivity;
 import com.example.korot.rx_login.authActivity.daggerAuth.AuthModule;
 import com.example.korot.rx_login.authActivity.utils.AuthPresenterImpl;
@@ -19,28 +21,48 @@ import com.example.korot.rx_login.authActivity.loginFragment.ui.LoginFragment;
 import com.example.korot.rx_login.authActivity.registFragment.ui.RegistrationFragment;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.plus.Plus;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import javax.inject.Inject;
 import butterknife.ButterKnife;
 
 
-
 public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,ForgotPassDialog.IFogot,RegistrationFragment.IRegist
-,IBaseView.IAuthView {
+,IBaseView.IAuthView, GoogleApiClient.OnConnectionFailedListener{
 
     private static final String TAG = AuthActivity.class.getSimpleName();
 
     @Inject
     AuthPresenterImpl presenter;
+    @Inject
+    SocialControllerImpl sosial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         sosialClientTwitter = new TwitterAuthClient();
         callbackManager = CallbackManager.Factory.create();
         loginManager = LoginManager.getInstance();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .addApi(Plus.API)
+                .addScope(new Scope(Scopes.PROFILE))
+                .build();
+
         this.addFragment(R.id.activity_main, LoginFragment.newInstance(), "Auth");
         presenter.init(this);
     }
@@ -57,6 +79,10 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
         return sosialClientTwitter;
     }
 
+    public GoogleApiClient getGoogleApiClient(){
+        return mGoogleApiClient;
+    }
+
     @Override
     protected void setupComponent(AppComponent appComponent) {
         appComponent.plus(new AuthModule(this)).inject(this);
@@ -71,17 +97,34 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, " onActivityResult " + requestCode + " " + resultCode);
-
-        sosialClientTwitter.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == R.integer.facebook) {
-            Log.e(TAG , " onActivityResult  Facebook " + requestCode + " " + resultCode );
+            sosialClientTwitter.onActivityResult(requestCode, resultCode, data);
             callbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-        if (requestCode == R.integer.google && resultCode == RESULT_OK) {
-            Log.e(TAG, " onActivityResult  Google " + requestCode + " " + resultCode);
-              mGoogleApiClient.connect();
-        }
+            if(requestCode == 9001) {
+                mGoogleApiClient.connect();
+                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                Log.e(TAG,"GoogleSignInResult result " + String.valueOf((result.getStatus())));
+                Log.e(TAG,"GoogleSignInResult result " + String.valueOf((result.isSuccess())));
+                googleToken(result);
+            }
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            Log.d(TAG, "Got cached sign-in");
+            GoogleSignInResult result = opr.get();
+            googleToken(result);
+        } else {
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+                    googleToken(googleSignInResult);
+                }
+            });
+        }
     }
 
     @Override
@@ -126,6 +169,7 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
             presenter.forgotPassword(email);
         }
     }
+
 
     @Override
     public void onBackPressed() {
@@ -173,7 +217,33 @@ public class AuthActivity extends BaseActivity implements LoginFragment.ILogin,F
             Toast.makeText(AuthActivity.this, "HUJ", Toast.LENGTH_LONG).show();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    private void googleToken(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            Log.d(TAG, "Result:" + result.isSuccess());
+            GoogleSignInAccount acct = result.getSignInAccount();
+            String authCode = null;
+            if (acct != null) {
+                authCode = acct.getServerAuthCode().toString();
+            }
+            Log.e(TAG, "googleToken " + authCode);
+            if(authCode != null) {
+                sosial.googleTokenRealm(authCode);
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
 }
+
 
 
 

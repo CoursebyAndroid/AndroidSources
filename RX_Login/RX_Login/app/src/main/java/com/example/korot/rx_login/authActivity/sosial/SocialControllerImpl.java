@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 import com.example.korot.rx_login.R;
 import com.example.korot.rx_login.app.utils.INetworkCheck;
+import com.example.korot.rx_login.app.utils.IRealmService;
 import com.example.korot.rx_login.authActivity.ui.AuthActivity;
 import com.example.korot.rx_login.basePackage.BaseSosial;
 import com.facebook.AccessToken;
@@ -13,7 +14,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.common.AccountPicker;
+import com.google.android.gms.auth.api.Auth;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterAuthToken;
@@ -31,11 +32,13 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class SocialControllerImpl extends BaseSosial implements ISocialController {
 
     private static final String TAG = SocialControllerImpl.class.getSimpleName();
+    private String googleToken;
 
     @Inject
-    public SocialControllerImpl(AuthActivity activity, INetworkCheck networkCheck) {
+    public SocialControllerImpl(AuthActivity activity, INetworkCheck networkCheck, IRealmService realmService) {
         this.activity = activity;
         this.networkCheck = networkCheck;
+        this.mRealm = realmService;
     }
 
     @Override
@@ -71,9 +74,10 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
         activity.getLoginManager().registerCallback(activity.getCallbackManager(), new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                final String token = AccessToken.getCurrentAccessToken().getToken();
                 Toast.makeText(activity,"Enter Facebook",Toast.LENGTH_LONG).show();
-                Log.e(TAG + " Facebook",token);
+                AccessToken accessToken = loginResult.getAccessToken();
+                final String token = accessToken.getToken();
+                facebookToketRealm(token);
             }
             @Override
             public void onCancel() {}
@@ -89,10 +93,15 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
             Toast.makeText(activity, activity.getString(R.string.error_text_no_internet), Toast.LENGTH_LONG).show();
             return;
         }
-        Intent intent = AccountPicker.newChooseAccountIntent(null, null, new String[]{"com.google"},
-                false, null, null, null, null);
-        Toast.makeText(activity,"Enter Google",Toast.LENGTH_LONG).show();
+        Intent intent = Auth.GoogleSignInApi.getSignInIntent(activity.getGoogleApiClient());
         activity.startActivityForResult(intent,9001);
+    }
+
+    @Override
+    public void googleTokenRealm(String token){
+        Toast.makeText(activity,"Enter Google",Toast.LENGTH_LONG).show();
+        Log.e(TAG,"googleTokenRealm " + token);
+        super.googleTokenRealm(token);
     }
 
     public void loginInTwitter() {
@@ -113,11 +122,11 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
                 Toast.makeText(activity,"Enter Twitter",Toast.LENGTH_LONG).show();
                 Log.i(TAG, "Access Token:- " + accessToken);
                 Log.i(TAG, "Secreat Token:- " + secretToken);
+
+               twitterTokenRealm(authToken.toString());
             }
             @Override
-            public void failure(final TwitterException e) {
-                // Do something on fail
-            }
+            public void failure(final TwitterException e) {}
         });
     }
 
@@ -148,7 +157,6 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
                 handleSignInResult(new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
-                        // Do nothing, just throw the access token away.
                         return null;
                     }
                 });
@@ -160,7 +168,6 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
 
     private void handleSignInResult(Callable<Void> logout) {
         if(logout == null) {
-            /* Login error */
             Toast.makeText(getApplicationContext(), R.string.login_error, Toast.LENGTH_SHORT).show();
         }
     }

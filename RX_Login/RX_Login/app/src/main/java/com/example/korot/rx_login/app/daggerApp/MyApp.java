@@ -24,7 +24,6 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-       //
         TwitterAuthConfig authConfig =
                 new TwitterAuthConfig(getString(R.string.com_twitter_sdk_android_CONSUMER_KEY),
                         getString(R.string.com_twitter_sdk_android_CONSUMER_SECRET));
@@ -36,9 +35,11 @@ public class MyApp extends Application {
 
     private void initRealmConfiguration() {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
+                .name("user.realm")
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
+
     }
 
     private void initAppComponent() {

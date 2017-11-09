@@ -15,10 +15,6 @@ import dagger.Subcomponent;
         modules = AuthModule.class
 )
 public interface AuthComponent {
-
-//    LoginComponent plus (LoginModule loginModule);
-//    RegistComponent plus (RegistModule registModule);
-//    FogotPassComponent plus (FogotPassModule fogotPassModule);
     void inject (AuthActivity authActivity);
 }
 

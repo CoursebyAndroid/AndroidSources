@@ -28,9 +28,6 @@ import okhttp3.ResponseBody;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 
-/**
- * Created by korot on 24.09.2017.
- */
 
 public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInteractorContract.IAuthInteractor>
         implements IPresenterContract.IAuthPresenter {
@@ -96,4 +93,11 @@ public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInter
     public void inSelect(int select) {
         socialController.onSelect(select);
     }
+
+    @Override
+    public void getData() {
+
+    }
+
+
 }

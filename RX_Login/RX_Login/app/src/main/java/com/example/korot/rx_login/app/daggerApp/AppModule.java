@@ -12,6 +12,7 @@ import com.example.korot.rx_login.app.utils.Validator;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by korot on 24.09.2017.

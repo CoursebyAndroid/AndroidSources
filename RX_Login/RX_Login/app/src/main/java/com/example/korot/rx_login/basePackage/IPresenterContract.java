@@ -13,6 +13,7 @@ public interface IPresenterContract{
         void singUp(String phone, String email,String password);
         void forgotPassword (String email);
         void inSelect(int select);
+        void getData();
         void init(V view);
     }
 }

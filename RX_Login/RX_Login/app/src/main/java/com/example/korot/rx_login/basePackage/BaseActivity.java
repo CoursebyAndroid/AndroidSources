@@ -7,14 +7,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import com.example.korot.rx_login.R;
 import com.example.korot.rx_login.app.daggerApp.AppComponent;
 import com.example.korot.rx_login.app.daggerApp.MyApp;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
-
 import butterknife.Unbinder;
+
 
 /**
  * Created by korot on 26.08.2017.
@@ -28,14 +32,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected LoginManager loginManager;
     protected GoogleApiClient mGoogleApiClient;
     protected TwitterAuthClient sosialClientTwitter;
+    protected  GoogleSignInOptions googleSignInOptions;
+
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
+                .requestServerAuthCode(getString(R.string.server_client_id), false)
+                .build();
         setupComponent(MyApp.get(this).getAppComponent());
         fragmentManager = getSupportFragmentManager();
-        initView();
     }
 
     protected abstract void setupComponent(AppComponent appComponent);

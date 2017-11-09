@@ -48,19 +48,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //UI
 
-    //Retrofit
-
-    //Rx
-
-    //ATP
-    //sosial
-    //google
-    //twiter
-//    compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
-//        transitive = true;
-//    }
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
@@ -84,6 +72,7 @@ dependencies {
     compile 'com.facebook.android:facebook-applinks:[4,5)'
     compile 'com.google.android.gms:play-services-auth:11.0.4'
     compile 'com.google.android.gms:play-services-plus:11.0.4'
+
 
     compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
         transitive = true;
