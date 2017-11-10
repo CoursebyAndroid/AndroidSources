@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 import com.example.korot.rx_login.R;
+import com.example.korot.rx_login.app.model.TestRealm;
 import com.example.korot.rx_login.app.utils.INetworkCheck;
 import com.example.korot.rx_login.app.utils.IRealmService;
 import com.example.korot.rx_login.authActivity.ui.AuthActivity;
@@ -23,6 +24,8 @@ import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 import javax.inject.Inject;
@@ -33,7 +36,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class SocialControllerImpl extends BaseSosial implements ISocialController {
 
     private static final String TAG = SocialControllerImpl.class.getSimpleName();
-
+    private ArrayList<TestRealm>list;
     @Inject
     public SocialControllerImpl(AuthActivity activity, INetworkCheck networkCheck, IRealmService realmService) {
         this.activity = activity;
@@ -78,6 +81,7 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
                 AccessToken accessToken = loginResult.getAccessToken();
                 final String token = accessToken.getToken();
                 addTokenRealmDao(token,"Facebook");
+
             }
             @Override
             public void onCancel() {}
@@ -110,8 +114,14 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
                 Toast.makeText(activity,"Enter Google",Toast.LENGTH_LONG).show();
                 Log.e(TAG,"googleTokenRealm " + token);
                 addTokenRealmDao(token,"Google");
+
             }
         }
+    }
+    @Override
+    public void onTestArryaRealm(ArrayList<TestRealm> arr) {
+        Log.e("onTestArryaRealm","arr" + arr.size());
+        addTest(arr);
     }
 
     public void loginInTwitter() {

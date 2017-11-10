@@ -1,6 +1,7 @@
 package com.example.korot.rx_login.app.utils;
 
 
+import com.example.korot.rx_login.app.model.TestRealm;
 import com.example.korot.rx_login.app.model.UserRealm;
 
 import io.realm.Realm;
@@ -34,15 +35,21 @@ public class RealmService implements IRealmService {
 
     @Override
     public <T extends RealmObject> Observable<T> addUser(T object, Class<T> clazz) {
-        long id = 0;
+      //  long id = 0;
 
-        try {
-            id = object instanceof UserRealm ? mRealm.where(clazz).max("id").intValue() :  mRealm.where(clazz).max("id").intValue() + 1;
-        } catch (Exception e) {
-            id = 0L;
-        }
+//        try {
+//            id = object instanceof UserRealm ? mRealm.where(clazz).max("id").intValue() :  mRealm.where(clazz).max("id").intValue() + 1;
+//        } catch (Exception e) {
+//            id = 0L;
+//        }
 
-        ((UserRealm) object).setId(id);
+       if(object instanceof UserRealm){ (
+               (UserRealm) object).setId(0);
+       }
+        if(object instanceof TestRealm){
+           ((TestRealm) object).setId(((TestRealm) object).getId());
+       }
+
          return Observable.just(object)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -56,6 +63,8 @@ public class RealmService implements IRealmService {
                         .doOnNext(next -> mRealm.copyToRealmOrUpdate(next))
                 );
     }
+
+
 
     @Override
     public <T extends RealmObject> Observable<RealmResults<T>> getUser(Class<T> clazz) {

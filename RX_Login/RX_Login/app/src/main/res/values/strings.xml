@@ -10,18 +10,19 @@
     <string name="text_btn_twitter">twitter</string>
     <string name="text_btn_instagram">instagram</string>
     <string name="login_error">Error during login</string>
-    // key
+    // key Facebook
     <string name="facebook_app_id">162007774391047</string>
     <string name="fb_login_protocol_scheme">fb162007774391047</string>
-
+    // key Twitter
     <string name="com.twitter.sdk.android.CONSUMER_KEY">Lj1YKa2o5V95ZadcI520IgKU9</string>
     <string name="com.twitter.sdk.android.CONSUMER_SECRET">KKmVq9fiVJp0B5qLs4CER6pUjYWLJ5GhB6Yrb0hcHk59GNphqY</string>
-
+    // key Google
     <string name="server_client_id">660113684901-e8eqsbf0st6ln2pm0fpfq61j62o3u68b.apps.googleusercontent.com</string>
     //static id sosial select
     <integer name="facebook">1</integer>
     <integer name="google">9001</integer>
     <integer name="twitter">2</integer>
     <integer name="instagram">3</integer>
+
 
 </resources>

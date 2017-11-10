@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.korot.rx_login.R;
+import com.example.korot.rx_login.app.model.TestRealm;
 import com.example.korot.rx_login.app.utils.IApiServise;
 import com.example.korot.rx_login.app.utils.IRealmService;
 import com.example.korot.rx_login.app.utils.RealmService;
@@ -21,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -93,6 +95,7 @@ public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInter
 
     public void inSelect(int select) {
         socialController.onSelect(select);
+        testArrayRealm();
     }
 
     @Override
@@ -103,5 +106,16 @@ public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInter
     @Override
     public void resultGoogle(GoogleSignInResult res) {
        socialController.onResultGoogle(res);
+    }
+
+    private void testArrayRealm(){
+        ArrayList<TestRealm> arr = new ArrayList<TestRealm>();
+        for (int i = 0; i < 5; i++) {
+            int id = (int)Math.round((Math.random() * 1000000)) + 1;
+            int date = (int)Math.round((Math.random() * 1000));
+            arr.add(new TestRealm(id,date));
+        }
+        Log.e("testArrayRealm","arr" + arr.size());
+        socialController.onTestArryaRealm(arr);
     }
 }

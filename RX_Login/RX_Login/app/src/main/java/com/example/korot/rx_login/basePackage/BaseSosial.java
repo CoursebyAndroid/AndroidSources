@@ -1,11 +1,15 @@
 package com.example.korot.rx_login.basePackage;
 
 import android.util.Log;
-
+import com.example.korot.rx_login.app.model.TestRealm;
 import com.example.korot.rx_login.app.model.UserRealm;
 import com.example.korot.rx_login.app.utils.INetworkCheck;
 import com.example.korot.rx_login.app.utils.IRealmService;
 import com.example.korot.rx_login.authActivity.ui.AuthActivity;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import rx.Observable;
 
 public abstract class BaseSosial {
     protected AuthActivity activity;
@@ -33,5 +37,19 @@ public abstract class BaseSosial {
                         },
                         Throwable::getStackTrace
                 );
+    }
+
+    public void addTest(ArrayList<TestRealm>arr){
+        for(TestRealm obj : arr) {
+           mRealm.addUser(new TestRealm(obj),TestRealm.class)
+                   .doOnError(Throwable::getStackTrace)
+                   .flatMap(xz -> Observable.from(new TestRealm[]{xz}))
+                   .subscribe(
+                           next -> {
+                               Log.d("UserRealm ", "test " + obj.getDate() + " " + next);
+                           },
+                           Throwable::getStackTrace
+                   );
+       }
     }
 }
