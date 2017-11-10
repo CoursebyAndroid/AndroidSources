@@ -13,9 +13,6 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by korot on 14.08.2017.
- */
 
 public class AuthInteractorImpl implements IInteractorContract.IAuthInteractor {
 

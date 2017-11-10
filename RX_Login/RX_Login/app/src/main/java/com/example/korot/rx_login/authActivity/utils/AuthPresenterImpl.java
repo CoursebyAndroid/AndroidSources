@@ -1,35 +1,19 @@
 package com.example.korot.rx_login.authActivity.utils;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import com.example.korot.rx_login.R;
 import com.example.korot.rx_login.app.model.TestRealm;
-import com.example.korot.rx_login.app.utils.IApiServise;
+import com.example.korot.rx_login.app.model.UserRealm;
 import com.example.korot.rx_login.app.utils.IRealmService;
-import com.example.korot.rx_login.app.utils.RealmService;
 import com.example.korot.rx_login.authActivity.sosial.ISocialController;
-import com.example.korot.rx_login.authActivity.sosial.SocialControllerImpl;
-import com.example.korot.rx_login.authActivity.ui.AuthActivity;
-import com.example.korot.rx_login.basePackage.BaseFragment;
 import com.example.korot.rx_login.basePackage.BasePresenter;
 import com.example.korot.rx_login.basePackage.IBaseView;
 import com.example.korot.rx_login.basePackage.IInteractorContract;
 import com.example.korot.rx_login.basePackage.IPresenterContract;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.inject.Inject;
 
-import butterknife.OnClick;
-import okhttp3.ResponseBody;
-import retrofit2.adapter.rxjava.HttpException;
-import rx.Observable;
+
 
 
 public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInteractorContract.IAuthInteractor>
@@ -51,9 +35,24 @@ public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInter
         mAuthInteractor.signUp(phone, email, password)
                 .subscribe(next -> {
                             Log.e(TAG, " RESPONSE " + next);
-                            //insert to realm
-                            // get from realm
+                            realmService.addObject(new UserRealm(next.getmPhone(),next.getmEmail(),next.getmPassword()), UserRealm.class)
+                            .doOnError(Throwable::getStackTrace)
+                            .subscribe(
+                                    t -> {
+                                        Log.d("UserRealm ", "RESPONSE Server singUp to Realm ");
+                                    },
+                                    Throwable::getStackTrace
+                            );
                             view.isAuth(next);
+                        }, throwable -> {
+                            Log.e(TAG, " ERROR " + throwable.getMessage());
+                        }
+
+                );
+        realmService.getObject(UserRealm.class)
+                .doOnError(Throwable::getStackTrace)
+                .subscribe(next ->{
+                            Log.d("UserRealm ", "Get Object UserRealm to Realm " + next);
                         }, throwable -> {
                             Log.e(TAG, " ERROR " + throwable.getMessage());
                         }
@@ -66,11 +65,26 @@ public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInter
         mAuthInteractor.login(email, password)
                 .subscribe(next -> {
                             Log.e(TAG, " RESPONSE " + next);
-                            //insert to realm
-                            // get from realm
+                            realmService.addObject(new UserRealm(next.getmEmail(),next.getmPhone()), UserRealm.class)
+                            .doOnError(Throwable::getStackTrace)
+                            .subscribe(
+                                    t -> {
+                                        Log.d("UserRealm ", "RESPONSE Server login to Realm ");
+                                    },
+                                    Throwable::getStackTrace
+                            );
                             view.isAuth(next);
                         }, throwable -> {
 
+                            Log.e(TAG, " ERROR " + throwable.getMessage());
+                        }
+
+                );
+        realmService.getObject(UserRealm.class)
+                .doOnError(Throwable::getStackTrace)
+                .subscribe(next ->{
+                    Log.d("UserRealm ", "Get Object UserRealm to Realm " + next);
+                }, throwable -> {
                             Log.e(TAG, " ERROR " + throwable.getMessage());
                         }
 
@@ -109,7 +123,7 @@ public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInter
     }
 
     private void testArrayRealm(){
-        ArrayList<TestRealm> arr = new ArrayList<TestRealm>();
+        ArrayList<TestRealm> arr = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             int id = (int)Math.round((Math.random() * 1000000)) + 1;
             int date = (int)Math.round((Math.random() * 1000));

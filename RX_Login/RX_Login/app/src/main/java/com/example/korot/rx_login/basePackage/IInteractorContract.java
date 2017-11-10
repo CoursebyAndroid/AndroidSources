@@ -24,7 +24,6 @@ public interface IInteractorContract {
     interface IAuthInteractor extends IInteractorContract {
         Observable<User> login(String email, String password);
         Observable<User> signUp(String phone, String email, String password);
-//        Observable<User> forgotPassword(String email);
         Observable<JsonPrimitive> forgotPassword(String email);
     }
 

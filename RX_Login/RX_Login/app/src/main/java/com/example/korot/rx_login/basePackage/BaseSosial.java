@@ -7,7 +7,6 @@ import com.example.korot.rx_login.app.utils.INetworkCheck;
 import com.example.korot.rx_login.app.utils.IRealmService;
 import com.example.korot.rx_login.authActivity.ui.AuthActivity;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import rx.Observable;
 
@@ -29,7 +28,7 @@ public abstract class BaseSosial {
     }
 
     private void addRealm(String token,String tag){
-        mRealm.addUser(new UserRealm(token), UserRealm.class)
+        mRealm.addObject(new UserRealm(token), UserRealm.class)
                 .doOnError(Throwable::getStackTrace)
                 .subscribe(
                         next -> {
@@ -41,9 +40,9 @@ public abstract class BaseSosial {
 
     public void addTest(ArrayList<TestRealm>arr){
         for(TestRealm obj : arr) {
-           mRealm.addUser(new TestRealm(obj),TestRealm.class)
+           mRealm.addObject(new TestRealm(obj),TestRealm.class)
                    .doOnError(Throwable::getStackTrace)
-                   .flatMap(xz -> Observable.from(new TestRealm[]{xz}))
+                   .flatMap(t -> Observable.from(new TestRealm[]{t}))
                    .subscribe(
                            next -> {
                                Log.d("UserRealm ", "test " + obj.getDate() + " " + next);

@@ -1,5 +1,7 @@
 package com.example.korot.rx_login.app.utils;
 
+import com.example.korot.rx_login.app.model.UserRealm;
+
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -13,9 +15,12 @@ public interface IRealmService {
     Realm get();
     void closeRealm();
     void refresh();
-    <T extends RealmObject> Observable<T> addUser(T object, Class<T> clazz);
-    <T extends RealmObject> Observable<RealmResults<T>> getUser(Class<T> clazz);
-    <T extends RealmObject> Observable<Class<T>> deleteUser(long id, Class<T> clazz);
-    <T extends RealmObject> Observable<Class<T>> deleteAllUser(Class<T> clazz);
-    <T extends RealmObject> Observable<T> getLastUser(Class<T> clazz);
+    <T extends RealmObject> Observable<T> addObject(T object, Class<T> clazz);
+    <T extends RealmObject> Observable<RealmResults<T>> getObject(Class<T> clazz);
+    <T extends RealmObject> Observable<Class<T>> deleteObject(long id, Class<T> clazz);
+    <T extends RealmObject> Observable<Class<T>> deleteAllObject(Class<T> clazz);
+    <T extends RealmObject> Observable<T> getLastObject(Class<T> clazz);
+    <T extends RealmObject> Observable<T> addArryaObject(T[] object, Class<T> clazz);
+
+
 }

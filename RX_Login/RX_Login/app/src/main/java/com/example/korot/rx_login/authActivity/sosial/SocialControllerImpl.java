@@ -24,7 +24,6 @@ import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.Callable;
@@ -36,7 +35,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class SocialControllerImpl extends BaseSosial implements ISocialController {
 
     private static final String TAG = SocialControllerImpl.class.getSimpleName();
-    private ArrayList<TestRealm>list;
+
     @Inject
     public SocialControllerImpl(AuthActivity activity, INetworkCheck networkCheck, IRealmService realmService) {
         this.activity = activity;
@@ -120,7 +119,7 @@ public class SocialControllerImpl extends BaseSosial implements ISocialControlle
     }
     @Override
     public void onTestArryaRealm(ArrayList<TestRealm> arr) {
-        Log.e("onTestArryaRealm","arr" + arr.size());
+        Log.e("onTestArryaRealm","arr " + arr.size());
         addTest(arr);
     }
 

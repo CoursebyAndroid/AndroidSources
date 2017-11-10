@@ -3,7 +3,7 @@ package com.example.korot.rx_login.app.utils;
 
 import com.example.korot.rx_login.app.model.TestRealm;
 import com.example.korot.rx_login.app.model.UserRealm;
-
+import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -34,14 +34,12 @@ public class RealmService implements IRealmService {
     }
 
     @Override
-    public <T extends RealmObject> Observable<T> addUser(T object, Class<T> clazz) {
-      //  long id = 0;
+    public <T extends RealmObject> Observable<T> addObject(T object, Class<T> clazz) {
 
-//        try {
-//            id = object instanceof UserRealm ? mRealm.where(clazz).max("id").intValue() :  mRealm.where(clazz).max("id").intValue() + 1;
-//        } catch (Exception e) {
-//            id = 0L;
-//        }
+        ArrayList<TestRealm>obj = new ArrayList<>();
+        mRealm.beginTransaction();
+        mRealm.copyToRealm(obj);
+        mRealm.commitTransaction();
 
        if(object instanceof UserRealm){ (
                (UserRealm) object).setId(0);
@@ -65,9 +63,15 @@ public class RealmService implements IRealmService {
     }
 
 
+    @Override
+    public <T extends RealmObject> Observable<T> addArryaObject(T[] object, Class<T> clazz) {
+
+
+        return null;
+    }
 
     @Override
-    public <T extends RealmObject> Observable<RealmResults<T>> getUser(Class<T> clazz) {
+    public <T extends RealmObject> Observable<RealmResults<T>> getObject(Class<T> clazz) {
         return Observable.just(clazz)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -80,7 +84,7 @@ public class RealmService implements IRealmService {
     }
 
     @Override
-    public <T extends RealmObject> Observable<Class<T>> deleteUser(long id, Class<T> clazz) {
+    public <T extends RealmObject> Observable<Class<T>> deleteObject(long id, Class<T> clazz) {
         return Observable.just(clazz)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -93,7 +97,7 @@ public class RealmService implements IRealmService {
     }
 
     @Override
-    public <T extends RealmObject> Observable<Class<T>> deleteAllUser(Class<T> clazz) {
+    public <T extends RealmObject> Observable<Class<T>> deleteAllObject(Class<T> clazz) {
         return Observable.just(clazz)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -106,7 +110,7 @@ public class RealmService implements IRealmService {
     }
 
     @Override
-    public <T extends RealmObject> Observable<T> getLastUser(Class<T> clazz) {
+    public <T extends RealmObject> Observable<T> getLastObject(Class<T> clazz) {
         return Observable.just(clazz)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -117,4 +121,5 @@ public class RealmService implements IRealmService {
                         })
                         .map(type -> mRealm.where(type).findAll().last()));
     }
+
 }
