@@ -5,9 +5,6 @@ import com.example.korot.rx_login.app.utils.IRealmService;
 import com.example.korot.rx_login.app.utils.IValidator;
 import com.example.korot.rx_login.authActivity.sosial.ISocialController;
 
-/**
- * Created by korot on 01.10.2017.
- */
 
 public abstract class BasePresenter<V extends IBaseView, I extends IInteractorContract> {
 

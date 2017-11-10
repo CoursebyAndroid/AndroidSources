@@ -2,13 +2,11 @@ package com.example.korot.rx_login.app.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-
-/**
- * Created by Root on 09.11.2017.
- */
+import io.realm.annotations.Required;
 
 public class TestRealm extends RealmObject {
     @PrimaryKey
+    @Required
     private long id;
 
     private int date;
@@ -25,6 +23,7 @@ public class TestRealm extends RealmObject {
         this.id = id;
         this.date = date;
     }
+
 
     @Override
     public String toString() {

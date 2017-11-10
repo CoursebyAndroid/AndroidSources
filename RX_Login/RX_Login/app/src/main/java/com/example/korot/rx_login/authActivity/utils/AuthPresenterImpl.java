@@ -13,9 +13,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import java.util.ArrayList;
 import javax.inject.Inject;
 
-
-
-
 public class AuthPresenterImpl extends BasePresenter<IBaseView.IAuthView, IInteractorContract.IAuthInteractor>
         implements IPresenterContract.IAuthPresenter, IPresenterContract.IAuthPresenterSosial {
 

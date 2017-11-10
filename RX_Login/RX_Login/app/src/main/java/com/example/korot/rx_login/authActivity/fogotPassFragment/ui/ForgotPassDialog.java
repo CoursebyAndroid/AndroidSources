@@ -13,9 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-
 import com.example.korot.rx_login.R;
-
 import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;

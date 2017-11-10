@@ -11,15 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-
 import com.example.korot.rx_login.R;
 import com.example.korot.rx_login.authActivity.loginFragment.ui.LoginFragment;
 import com.example.korot.rx_login.basePackage.IOnBackPressed;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 
 public class RegistrationFragment extends Fragment implements IOnBackPressed {
 

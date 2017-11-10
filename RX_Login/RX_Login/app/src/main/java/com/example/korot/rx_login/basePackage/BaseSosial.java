@@ -7,7 +7,6 @@ import com.example.korot.rx_login.app.utils.INetworkCheck;
 import com.example.korot.rx_login.app.utils.IRealmService;
 import com.example.korot.rx_login.authActivity.ui.AuthActivity;
 import java.util.ArrayList;
-
 import rx.Observable;
 
 public abstract class BaseSosial {

@@ -4,15 +4,10 @@ import com.example.korot.rx_login.app.config.Config;
 import com.example.korot.rx_login.app.model.User;
 import com.example.korot.rx_login.app.utils.IApiServise;
 import com.example.korot.rx_login.basePackage.IInteractorContract;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-
-import org.json.JSONObject;
-
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
 
 public class AuthInteractorImpl implements IInteractorContract.IAuthInteractor {
 

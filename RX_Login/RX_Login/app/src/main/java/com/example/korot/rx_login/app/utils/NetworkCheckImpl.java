@@ -5,10 +5,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * Created by korot on 24.09.2017.
- */
-
 public class NetworkCheckImpl implements INetworkCheck {
     private Application application;
 

@@ -42,7 +42,7 @@ public class RealmService implements IRealmService {
         mRealm.commitTransaction();
 
        if(object instanceof UserRealm){ (
-               (UserRealm) object).setId(0);
+               (UserRealm) object).setId("sosialToken");
        }
         if(object instanceof TestRealm){
            ((TestRealm) object).setId(((TestRealm) object).getId());

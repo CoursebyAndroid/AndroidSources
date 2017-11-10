@@ -2,12 +2,13 @@ package com.example.korot.rx_login.app.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-
+import io.realm.annotations.Required;
 
 public class UserRealm extends RealmObject {
 
     @PrimaryKey
-    private long id;
+    @Required
+    private String id;
 
     private String login;
     private String lastName;
@@ -18,6 +19,7 @@ public class UserRealm extends RealmObject {
     private String product;
     private String sosialToken;
     private String serverToken;
+
 
     public UserRealm() {
     }
@@ -37,6 +39,7 @@ public class UserRealm extends RealmObject {
         this.paswword = paswword;
     }
 
+
     @Override
     public String toString() {
         return "UserRealm{" +
@@ -53,10 +56,10 @@ public class UserRealm extends RealmObject {
                 '}';
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getSosialToken() {

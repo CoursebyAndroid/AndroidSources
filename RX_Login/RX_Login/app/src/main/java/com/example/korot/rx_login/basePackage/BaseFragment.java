@@ -5,13 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * Created by korot on 01.10.2017.
- */
 
 public abstract class BaseFragment extends Fragment {
 

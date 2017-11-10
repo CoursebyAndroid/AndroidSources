@@ -19,11 +19,6 @@ import com.google.android.gms.common.api.Scope;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import butterknife.Unbinder;
 
-
-/**
- * Created by korot on 26.08.2017.
- */
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected FragmentManager fragmentManager;

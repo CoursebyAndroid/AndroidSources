@@ -72,20 +72,16 @@ dependencies {
     compile 'com.facebook.android:facebook-applinks:[4,5)'
     compile 'com.google.android.gms:play-services-auth:11.0.4'
     compile 'com.google.android.gms:play-services-plus:11.0.4'
-
-
     compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
         transitive = true;
     }
-
-
     compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true;
     }
-    testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
     apt 'com.google.dagger:dagger-compiler:2.7'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     provided 'com.ryanharter.auto.value:auto-value-gson:0.4.5'
+    testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

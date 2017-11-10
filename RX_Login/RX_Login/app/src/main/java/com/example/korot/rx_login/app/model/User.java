@@ -2,10 +2,6 @@ package com.example.korot.rx_login.app.model;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by korot on 14.08.2017.
- */
-
 public class User {
     @SerializedName("error")
     private String mUserError;
